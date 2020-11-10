@@ -1,0 +1,36 @@
+<!DOCTYPE configuration>
+<configuration scan="true" scanPeriod="10 seconds">
+
+    <appender name="fileLogAppender"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/var/log/thingsboard/thingsboard.log</file>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--日志压缩，直接后缀名字加上.gz-->
+            <fileNamePattern>/var/log/thingsboard/thingsboard.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>10</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+           <!--            <pattern>%d{ISO8601} [%thread] %-5level %logger{36} - %msg%n</pattern>-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger %L  -| %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{ISO8601} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.thingsboard.server" level="INFO" />
+    <logger name="com.google.common.util.concurrent.AggregateFuture" level="OFF" />
+
+    <root level="INFO">
+        <appender-ref ref="fileLogAppender"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+</configuration>
