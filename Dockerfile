@@ -1,7 +1,4 @@
-FROM java:openjdk-8-jre-alpine
-
-WORKDIR /home
-
-COPY target/*.jar /home
-
-ENTRYPOINT java -jar *.jar
+FROM nginx:1.13-alpine
+MAINTAINER hanyun
+COPY dist /etc/nginx/micro_vue
+CMD [ "nginx", "-g", "daemon off;"]
